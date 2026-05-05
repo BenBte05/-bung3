@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nachhilfe Wirtschaftsinformatik THA</title>
+    <!-- Einbindung der externen CSS-Datei und der Google Fonts -->
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Fixierter Header mit Logo und Navigations-Buttons -->
+    <header class="sticky-header">
+        <div class="header-content">
+            <div class="logo"><span>THA</span>-Nachhilfe</div>
+            <div class="nav-controls">
+                <button class="login-nav-btn" id="loginBtn" onclick="showPage('phase-login')">Anmelden</button>
+                <button class="back-btn" id="globalBackBtn" onclick="showPage('phase-1')" style="display:none;">Zurück</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="app-container">
+        
+        <!-- Sektion für die Benutzer-Registrierung (Schüler oder Tutor) -->
+        <section id="phase-login" class="page">
+            <h2 class="section-title">Account erstellen</h2>
+            <div class="auth-container">
+                <div class="role-selection">
+                    <button class="btn-role active" id="btn-schueler" onclick="toggleRole('schueler')">Schüler</button>
+                    <button class="btn-role" id="btn-tutor" onclick="toggleRole('tutor')">Tutor</button>
+                </div>
+
+                <form id="auth-form" onsubmit="handleRegistration(event)">
+                    <div class="input-group">
+                        <label>Name</label>
+                        <input type="text" id="reg-name" placeholder="Vollständiger Name" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Alter</label>
+                        <input type="number" placeholder="z.B. 21" required>
+                    </div>
+                    <div class="input-group">
+                        <label>E-Mail (@tha.de)</label>
+                        <input type="email" placeholder="name@tha.de" required>
+                    </div>
+
+                    <!-- Zusätzliche Eingabefelder, die nur für Tutoren sichtbar sind -->
+                    <div id="tutor-fields" style="display: none;">
+                        <div class="input-group">
+                            <label>Fachgebiet</label>
+                            <select>
+                                <option>Programmierung</option>
+                                <option>Mathematik</option>
+                                <option>Wirtschaftsinformatik</option>
+                                <option>BWL</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Semester</label>
+                            <input type="number" placeholder="z.B. 4">
+                        </div>
+                        <div class="input-group">
+                            <label>Profilbild hochladen</label>
+                            <input type="file" accept="image/*">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem;">Registrierung abschließen</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Startseite: Auswahl der Fachkategorie -->
+        <section id="phase-1" class="page active">
+            <h1 class="hero-title">Fach auswählen</h1>
+            <p class="hero-sub">Wähle ein Modul, um verfügbare Tutoren zu sehen.</p>
+            <div class="list-categories">
+                <div class="list-item" onclick="showPage('phase-2-prog')"><h3>Programmierung</h3></div>
+                <div class="list-item" onclick="showPage('phase-2-mathe')"><h3>Mathematik & Statistik</h3></div>
+                <div class="list-item" onclick="showPage('phase-2-wi')"><h3>Wirtschaftsinformatik & Datenbanken</h3></div>
+                <div class="list-item" onclick="showPage('phase-2-bwl')"><h3>BWL, Rechnungswesen & Recht</h3></div>
+            </div>
+        </section>
+
+        <!-- Tutoren-Übersicht für die Kategorie Programmierung -->
+        <section id="phase-2-prog" class="page">
+            <h2 class="section-title">Tutoren für Programmierung</h2>
+            <div class="tutor-list">
+                <div class="tutor-card" onclick="selectTutor('Lukas', 'slots-lukas')">
+                    <img src="lehrer1.png" class="tutor-img">
+                    <div class="tutor-info"><h3>Lukas</h3><p>6. Sem. | Java & Python</p></div>
+                    <div class="price">25€<span>/h</span></div>
+                </div>
+                <div class="tutor-card" onclick="selectTutor('Deniz', 'slots-deniz')">
+                    <img src="lehrer4.png" class="tutor-img">
+                    <div class="tutor-info"><h3>Deniz</h3><p>5. Sem. | C# & Web</p></div>
+                    <div class="price">24€<span>/h</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tutoren-Übersicht für die Kategorie Mathematik -->
+        <section id="phase-2-mathe" class="page">
+            <h2 class="section-title">Tutoren für Mathe</h2>
+            <div class="tutor-list">
+                <div class="tutor-card" onclick="selectTutor('Marcel', 'slots-marcel')">
+                    <img src="lehrer2.png" class="tutor-img">
+                    <div class="tutor-info"><h3>Marcel</h3><p>4. Sem. | Analysis</p></div>
+                    <div class="price">22€<span>/h</span></div>
+                </div>
+                <div class="tutor-card" onclick="selectTutor('Sarah', 'slots-sarah')">
+                    <img src="lehrer3.png" class="tutor-img">
+                    <div class="tutor-info"><h3>Sarah</h3><p>7. Sem. | Statistik</p></div>
+                    <div class="price">28€<span>/h</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tutoren-Übersicht für die Kategorie Wirtschaftsinformatik -->
+        <section id="phase-2-wi" class="page">
+            <h2 class="section-title">Tutoren für WI & DB</h2>
+            <div class="tutor-list">
+                <div class="tutor-card" onclick="selectTutor('Tim', 'slots-tim')">
+                    <img src="lehrer5.png" class="tutor-img">
+                    <div class="tutor-info"><h3>Tim</h3><p>3. Sem. | SQL Expert</p></div>
+                    <div class="price">20€<span>/h</span></div>
+                </div>
+                <div class="tutor-card" onclick="selectTutor('Elena', 'slots-elena')">
+                    <img src="lehrer6.png" class="tutor-img">
+                    <div class="tutor-info"><h3>Elena</h3><p>6. Sem. | Prozessmodellierung</p></div>
+                    <div class="price">26€<span>/h</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tutoren-Übersicht für die Kategorie BWL & Recht -->
+        <section id="phase-2-bwl" class="page">
+            <h2 class="section-title">Tutoren für BWL & Recht</h2>
+            <div class="tutor-list">
+                <div class="tutor-card" onclick="selectTutor('Jonas', 'slots-jonas')">
+                    <img src="lehrer7.png" class="tutor-img">
+                    <div class="tutor-info"><h3>Jonas</h3><p>5. Sem. | Controlling</p></div>
+                    <div class="price">23€<span>/h</span></div>
+                </div>
+                <div class="tutor-card" onclick="selectTutor('Sophia', 'slots-sophia')">
+                    <img src="lehrer8.png" class="tutor-img">
+                    <div class="tutor-info"><h3>Sophia</h3><p>4. Sem. | IT-Recht</p></div>
+                    <div class="price">25€<span>/h</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Verfügbare Zeitfenster der einzelnen Tutoren (Beispiel Lukas) -->
+        <section id="slots-lukas" class="page">
+            <h2 class="section-title">Termin bei Lukas</h2>
+            <div class="slot-list">
+                <div class="day-group"><span class="day-label">Montag</span><div class="slot" onclick="showPage('phase-confirm')">09:00 - 10:00</div></div>
+                <div class="day-group"><span class="day-label">Dienstag</span><div class="slot" onclick="showPage('phase-confirm')">14:00 - 15:00</div></div>
+                <div class="day-group"><span class="day-label">Mittwoch</span><div class="slot" onclick="showPage('phase-confirm')">10:00 - 11:00</div></div>
+                <div class="day-group"><span class="day-label">Donnerstag</span><div class="slot" onclick="showPage('phase-confirm')">16:00 - 17:00</div></div>
+                <div class="day-group"><span class="day-label">Freitag</span><div class="slot" onclick="showPage('phase-confirm')">11:00 - 12:00</div></div>
+            </div>
+        </section>
+
+        <!-- Verfügbare Zeitfenster für Deniz -->
+        <section id="slots-deniz" class="page">
+            <h2 class="section-title">Termin bei Deniz</h2>
+            <div class="slot-list">
+                <div class="day-group"><span class="day-label">Montag</span><div class="slot" onclick="showPage('phase-confirm')">10:30 - 11:30</div></div>
+                <div class="day-group"><span class="day-label">Dienstag</span><div class="slot" onclick="showPage('phase-confirm')">09:00 - 10:00</div></div>
+                <div class="day-group"><span class="day-label">Mittwoch</span><div class="slot" onclick="showPage('phase-confirm')">13:00 - 14:00</div></div>
+                <div class="day-group"><span class="day-label">Donnerstag</span><div class="slot" onclick="showPage('phase-confirm')">15:00 - 16:00</div></div>
+                <div class="day-group"><span class="day-label">Freitag</span><div class="slot" onclick="showPage('phase-confirm')">08:30 - 09:30</div></div>
+            </div>
+        </section>
+
+        <!-- Verfügbare Zeitfenster für Marcel -->
+        <section id="slots-marcel" class="page">
+            <h2 class="section-title">Termin bei Marcel</h2>
+            <div class="slot-list">
+                <div class="day-group"><span class="day-label">Montag</span><div class="slot" onclick="showPage('phase-confirm')">13:00 - 14:00</div></div>
+                <div class="day-group"><span class="day-label">Dienstag</span><div class="slot" onclick="showPage('phase-confirm')">11:00 - 12:00</div></div>
+                <div class="day-group"><span class="day-label">Mittwoch</span><div class="slot" onclick="showPage('phase-confirm')">09:00 - 10:00</div></div>
+                <div class="day-group"><span class="day-label">Donnerstag</span><div class="slot" onclick="showPage('phase-confirm')">14:00 - 15:00</div></div>
+                <div class="day-group"><span class="day-label">Freitag</span><div class="slot" onclick="showPage('phase-confirm')">15:30 - 16:30</div></div>
+            </div>
+        </section>
+
+        <!-- Verfügbare Zeitfenster für Sarah -->
+        <section id="slots-sarah" class="page">
+            <h2 class="section-title">Termin bei Sarah</h2>
+            <div class="slot-list">
+                <div class="day-group"><span class="day-label">Montag</span><div class="slot" onclick="showPage('phase-confirm')">08:00 - 09:00</div></div>
+                <div class="day-group"><span class="day-label">Dienstag</span><div class="slot" onclick="showPage('phase-confirm')">16:00 - 17:00</div></div>
+                <div class="day-group"><span class="day-label">Mittwoch</span><div class="slot" onclick="showPage('phase-confirm')">14:00 - 15:00</div></div>
+                <div class="day-group"><span class="day-label">Donnerstag</span><div class="slot" onclick="showPage('phase-confirm')">10:00 - 11:00</div></div>
+                <div class="day-group"><span class="day-label">Freitag</span><div class="slot" onclick="showPage('phase-confirm')">12:00 - 13:00</div></div>
+            </div>
+        </section>
+
+        <!-- Verfügbare Zeitfenster für Tim -->
+        <section id="slots-tim" class="page">
+            <h2 class="section-title">Termin bei Tim</h2>
+            <div class="slot-list">
+                <div class="day-group"><span class="day-label">Montag</span><div class="slot" onclick="showPage('phase-confirm')">15:00 - 16:00</div></div>
+                <div class="day-group"><span class="day-label">Dienstag</span><div class="slot" onclick="showPage('phase-confirm')">13:00 - 14:00</div></div>
+                <div class="day-group"><span class="day-label">Mittwoch</span><div class="slot" onclick="showPage('phase-confirm')">11:00 - 12:00</div></div>
+                <div class="day-group"><span class="day-label">Donnerstag</span><div class="slot" onclick="showPage('phase-confirm')">08:30 - 09:30</div></div>
+                <div class="day-group"><span class="day-label">Freitag</span><div class="slot" onclick="showPage('phase-confirm')">14:00 - 15:00</div></div>
+            </div>
+        </section>
+
+        <!-- Verfügbare Zeitfenster für Elena -->
+        <section id="slots-elena" class="page">
+            <h2 class="section-title">Termin bei Elena</h2>
+            <div class="slot-list">
+                <div class="day-group"><span class="day-label">Montag</span><div class="slot" onclick="showPage('phase-confirm')">11:30 - 12:30</div></div>
+                <div class="day-group"><span class="day-label">Dienstag</span><div class="slot" onclick="showPage('phase-confirm')">15:30 - 16:30</div></div>
+                <div class="day-group"><span class="day-label">Mittwoch</span><div class="slot" onclick="showPage('phase-confirm')">10:00 - 11:00</div></div>
+                <div class="day-group"><span class="day-label">Donnerstag</span><div class="slot" onclick="showPage('phase-confirm')">13:00 - 14:00</div></div>
+                <div class="day-group"><span class="day-label">Freitag</span><div class="slot" onclick="showPage('phase-confirm')">09:00 - 10:00</div></div>
+            </div>
+        </section>
+
+        <!-- Verfügbare Zeitfenster für Jonas -->
+        <section id="slots-jonas" class="page">
+            <h2 class="section-title">Termin bei Jonas</h2>
+            <div class="slot-list">
+                <div class="day-group"><span class="day-label">Montag</span><div class="slot" onclick="showPage('phase-confirm')">14:00 - 15:00</div></div>
+                <div class="day-group"><span class="day-label">Dienstag</span><div class="slot" onclick="showPage('phase-confirm')">10:00 - 11:00</div></div>
+                <div class="day-group"><span class="day-label">Mittwoch</span><div class="slot" onclick="showPage('phase-confirm')">16:00 - 17:00</div></div>
+                <div class="day-group"><span class="day-label">Donnerstag</span><div class="slot" onclick="showPage('phase-confirm')">09:00 - 10:00</div></div>
+                <div class="day-group"><span class="day-label">Freitag</span><div class="slot" onclick="showPage('phase-confirm')">11:00 - 12:00</div></div>
+            </div>
+        </section>
+
+        <!-- Verfügbare Zeitfenster für Sophia -->
+        <section id="slots-sophia" class="page">
+            <h2 class="section-title">Termin bei Sophia</h2>
+            <div class="slot-list">
+                <div class="day-group"><span class="day-label">Montag</span><div class="slot" onclick="showPage('phase-confirm')">09:30 - 10:30</div></div>
+                <div class="day-group"><span class="day-label">Dienstag</span><div class="slot" onclick="showPage('phase-confirm')">14:00 - 15:00</div></div>
+                <div class="day-group"><span class="day-label">Mittwoch</span><div class="slot" onclick="showPage('phase-confirm')">12:00 - 13:00</div></div>
+                <div class="day-group"><span class="day-label">Donnerstag</span><div class="slot" onclick="showPage('phase-confirm')">11:00 - 12:00</div></div>
+                <div class="day-group"><span class="day-label">Freitag</span><div class="slot" onclick="showPage('phase-confirm')">16:00 - 17:00</div></div>
+            </div>
+        </section>
+
+        <!-- Bestätigungsdialog vor dem endgültigen Buchen -->
+        <section id="phase-confirm" class="page">
+            <div class="confirm-box">
+                <h2 class="section-title">Buchung bestätigen?</h2>
+                <p id="confirm-text" style="margin-bottom: 1.5rem; color: var(--medium-gray);">Du möchtest eine Stunde buchen.</p>
+                <div class="confirm-actions">
+                    <button class="btn-primary" onclick="showPage('phase-success')">Ja, jetzt buchen</button>
+                    <button class="btn-secondary" onclick="showPage('phase-1')">Abbrechen</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Erfolgsmeldung nach erfolgreicher Buchung -->
+        <section id="phase-success" class="page">
+            <div class="success-content">
+                <div class="status-icon">✓</div>
+                <h1>Erfolgreich!</h1>
+                <p>Deine Buchung wurde registriert.<br>Checke deine <strong>@tha.de</strong> Mails.</p>
+                <button class="reset-btn" onclick="showPage('phase-1')">Zurück zum Start</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer mit Urheberrecht und rechtlichen Links -->
+    <footer class="minimal-footer">
+        <p>
+            &copy; THA-Nachhilfe | 
+            <a href="https://www.tha.de/Service/Impressum.html" target="_blank">Impressum</a> | 
+            <a href="https://www.tha.de/Service/Datenschutz.html" target="_blank">DSGVO</a>
+        </p>
+    </footer>
+
+    <!-- Einbindung der Logik-Datei -->
+    <script src="script.js"></script>
+</body>
+</html>
